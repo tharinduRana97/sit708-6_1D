@@ -1,0 +1,19 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Outer Light Green Rounded Rectangle -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#ADFF2F"/> <!-- Light green background -->
+            <corners android:radius="24dp"/>
+        </shape>
+    </item>
+
+    <!-- Inner Black Circle -->
+    <item android:gravity="center">
+        <shape android:shape="oval">
+            <solid android:color="#000000"/> <!-- Black circle -->
+            <size android:width="48dp" android:height="48dp"/> <!-- Bigger for better fit -->
+        </shape>
+    </item>
+
+</layer-list>
