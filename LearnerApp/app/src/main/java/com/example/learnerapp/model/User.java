@@ -6,6 +6,8 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.example.learnerapp.utils.InterestsConverter;
+
 import java.io.Serializable;
 import java.util.List;
 

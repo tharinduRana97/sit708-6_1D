@@ -55,7 +55,7 @@ public class QuestionFragment extends Fragment {
             questionText.setText(getArguments().getString(ARG_QUESTION));
             List<String> options = getArguments().getStringArrayList(ARG_OPTIONS);
 
-            optionsGroup.removeAllViews(); // Important to avoid view reuse issues
+            optionsGroup.removeAllViews();
 
             for (String option : options) {
                 RadioButton radioButton = new RadioButton(getContext());

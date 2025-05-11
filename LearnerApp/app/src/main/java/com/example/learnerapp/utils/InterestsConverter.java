@@ -1,4 +1,4 @@
-package com.example.learnerapp.model;
+package com.example.learnerapp.utils;
 
 import androidx.room.TypeConverter;
 

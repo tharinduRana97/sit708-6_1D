@@ -10,20 +10,28 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.learnerapp.adapter.TaskAdapter;
+import com.example.learnerapp.model.Task;
 import com.example.learnerapp.model.User;
 import com.example.learnerapp.utils.SessionManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DashboardActivity extends BaseActivity {
     private SessionManager sessionManager;
-    private TextView welcomeText, taskNotification, taskTitle, taskDescription;
-    private CardView taskCard;
-    private Button startTaskBtn;
+    private TextView welcomeText, taskNotification;
+    private RecyclerView taskRecycler;
+    private TaskAdapter adapter;
+    private final List<Task> taskList = new ArrayList<>();
     private RequestQueue queue;
 
     private ProgressBar loadingSpinner;
@@ -35,10 +43,10 @@ public class DashboardActivity extends BaseActivity {
         sessionManager = new SessionManager(this);
         welcomeText = findViewById(R.id.welcomeText);
         taskNotification = findViewById(R.id.taskNotification);
-        taskTitle = findViewById(R.id.taskTitle);
-        taskDescription = findViewById(R.id.taskDescription);
-        taskCard = findViewById(R.id.taskCard);
-        startTaskBtn = findViewById(R.id.startTaskBtn);
+        taskRecycler = findViewById(R.id.taskRecycler);
+        taskRecycler.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new TaskAdapter(taskList, this);
+        taskRecycler.setAdapter(adapter);
         loadingSpinner = findViewById(R.id.loadingSpinner);
 
         queue = Volley.newRequestQueue(this);
@@ -47,14 +55,6 @@ public class DashboardActivity extends BaseActivity {
         welcomeText.setText("Hello,\n" + (user != null ? user.username:""));
 
         fetchTaskFromBackend();
-
-        startTaskBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(this, QuizActivity.class);
-            intent.putExtra("task_title", taskTitle.getText().toString());
-            intent.putExtra("task_description", taskDescription.getText().toString());
-            startActivity(intent);
-        });
-
     }
 
     @Override
@@ -83,9 +83,9 @@ public class DashboardActivity extends BaseActivity {
                         String title = response.getString("task_title");
                         String description = response.getString("task_description");
 
-                        taskTitle.setText(title);
-                        taskDescription.setText(description);
-                        taskCard.setVisibility(View.VISIBLE); // Show the card now
+                        taskList.clear();
+                        taskList.add(new Task(title, description));
+                        adapter.notifyDataSetChanged();
 
                     } catch (Exception e) {
                         Log.e(TAG, "Error parsing task response: " + e.getMessage());

@@ -27,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
         db = AppDatabase.getInstance(getApplicationContext());
         sessionManager = new SessionManager(this);
 
-
         usernameInput = findViewById(R.id.usernameInput);
         passwordInput = findViewById(R.id.passwordInput);
         loginButton = findViewById(R.id.loginButton);
